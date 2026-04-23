@@ -18,7 +18,10 @@ import HeldTransactions, {
     HoldButton,
 } from "@/Components/POS/HeldTransactions";
 import useBarcodeScanner from "@/Hooks/useBarcodeScanner";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 import {
     IconUser,
     IconShoppingCart,
@@ -527,6 +530,9 @@ export default function Index({
                                                             item.product.image
                                                         )}
                                                         alt={item.product.title}
+                                                        onError={
+                                                            handleProductImageError
+                                                        }
                                                         className="w-full h-full object-cover"
                                                     />
                                                 ) : (

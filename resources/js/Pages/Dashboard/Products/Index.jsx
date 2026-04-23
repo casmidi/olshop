@@ -18,7 +18,10 @@ import {
 import Search from "@/Components/Dashboard/Search";
 import Table from "@/Components/Dashboard/Table";
 import Pagination from "@/Components/Dashboard/Pagination";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 import BarcodePrintModal from "@/Components/Barcode/BarcodePrintModal";
 
 const formatCurrency = (value = 0) =>
@@ -64,6 +67,7 @@ function ProductCard({
                     <img
                         src={getProductImageUrl(product.image)}
                         alt={product.title}
+                        onError={handleProductImageError}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                     />
@@ -362,6 +366,7 @@ export default function Index({ products }) {
                                                         <img
                                                             src={getProductImageUrl(product.image)}
                                                             alt={product.title}
+                                                            onError={handleProductImageError}
                                                             className="w-full h-full object-cover"
                                                         />
                                                     ) : (

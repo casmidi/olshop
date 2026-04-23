@@ -1,40 +1,53 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeSwitcher = createContext();
 
+function readStoredDarkMode() {
+    if (typeof window === "undefined") {
+        return false;
+    }
+
+    try {
+        return window.localStorage.getItem("darkMode") === "true";
+    } catch {
+        return false;
+    }
+}
+
 export const ThemeSwitcherProvider = ({ children }) => {
-    // define state darkMode
-    const [darkMode, setDarkMode] = useState(
-        localStorage.getItem('darkMode') === 'true'
-    )
+    const [darkMode, setDarkMode] = useState(readStoredDarkMode);
 
     useEffect(() => {
+        if (typeof document === "undefined") {
+            return;
+        }
+
         const root = document.documentElement;
         const toggleTransition = () => {
-            root.classList.add('no-transition');
+            root.classList.add("no-transition");
             setTimeout(() => {
-                root.classList.remove('no-transition');
+                root.classList.remove("no-transition");
             }, 0);
         };
 
         toggleTransition();
 
-        if (darkMode)
-            document.body.classList.add('dark');
-        else
-            document.body.classList.remove('dark');
+        document.body.classList.toggle("dark", darkMode);
 
-        // set darkMode in localstorage
-        localStorage.setItem('darkMode', darkMode);
+        try {
+            window.localStorage.setItem("darkMode", String(darkMode));
+        } catch {
+            // Ignore storage failures in restricted mobile webviews.
+        }
     }, [darkMode]);
 
-    const themeSwitcher = () => setDarkMode(!darkMode);
+    const themeSwitcher = () => setDarkMode((value) => !value);
 
     return (
         <ThemeSwitcher.Provider value={{ darkMode, themeSwitcher }}>
             {children}
         </ThemeSwitcher.Provider>
-    )
-}
+    );
+};
 
 export const useTheme = () => useContext(ThemeSwitcher);

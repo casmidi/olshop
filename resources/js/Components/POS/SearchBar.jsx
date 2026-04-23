@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IconSearch, IconX, IconBarcode } from "@tabler/icons-react";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 
 const formatPrice = (value = 0) =>
     Number(value || 0).toLocaleString("id-ID", {
@@ -168,6 +171,9 @@ export default function SearchBar({
                                                     product.image
                                                 )}
                                                 alt={product.title}
+                                                onError={
+                                                    handleProductImageError
+                                                }
                                                 className="w-full h-full object-cover"
                                             />
                                         ) : (

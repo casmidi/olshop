@@ -4,23 +4,37 @@ import Navbar from "@/Components/Dashboard/Navbar";
 import { Toaster } from "react-hot-toast";
 import { useTheme } from "@/Context/ThemeSwitcherContext";
 
+function readSidebarState() {
+    if (typeof window === "undefined") {
+        return false;
+    }
+
+    try {
+        const stored = window.localStorage.getItem("sidebarOpen");
+        if (stored !== null) {
+            return stored === "true";
+        }
+    } catch {
+        // Ignore storage failures in restricted mobile webviews.
+    }
+
+    return window.innerWidth >= 768;
+}
+
 export default function AppLayout({ children }) {
     const { darkMode, themeSwitcher } = useTheme();
 
-    const getInitialSidebarState = () => {
-        if (typeof window === "undefined") return false;
-        const stored = localStorage.getItem("sidebarOpen");
-        if (stored !== null) return stored === "true";
-        return window.innerWidth >= 768;
-    };
-
-    const [sidebarOpen, setSidebarOpen] = useState(getInitialSidebarState);
+    const [sidebarOpen, setSidebarOpen] = useState(readSidebarState);
     const [isMobile, setIsMobile] = useState(
         typeof window !== "undefined" ? window.innerWidth < 768 : false
     );
 
     useEffect(() => {
-        localStorage.setItem("sidebarOpen", sidebarOpen);
+        try {
+            window.localStorage.setItem("sidebarOpen", String(sidebarOpen));
+        } catch {
+            // Ignore storage failures in restricted mobile webviews.
+        }
     }, [sidebarOpen]);
 
     useEffect(() => {

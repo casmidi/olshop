@@ -4,6 +4,8 @@
  * @param {string} folder - Storage folder (products, categories, etc)
  * @returns {string|null} - Proper image URL or null
  */
+export const PRODUCT_PLACEHOLDER_IMAGE = "/assets/thumbnail/image.png";
+
 export function getImageUrl(image, folder = "products") {
     if (!image) return null;
 
@@ -29,6 +31,17 @@ export function getProductImageUrl(image) {
     return getImageUrl(image, "products");
 }
 
+export function handleProductImageError(event) {
+    const image = event?.currentTarget;
+
+    if (!image || image.dataset.fallbackApplied === "true") {
+        return;
+    }
+
+    image.dataset.fallbackApplied = "true";
+    image.src = PRODUCT_PLACEHOLDER_IMAGE;
+}
+
 /**
  * Get category image URL
  * @param {string} image - Category image
@@ -38,4 +51,10 @@ export function getCategoryImageUrl(image) {
     return getImageUrl(image, "categories");
 }
 
-export default { getImageUrl, getProductImageUrl, getCategoryImageUrl };
+export default {
+    getImageUrl,
+    getProductImageUrl,
+    getCategoryImageUrl,
+    handleProductImageError,
+    PRODUCT_PLACEHOLDER_IMAGE,
+};

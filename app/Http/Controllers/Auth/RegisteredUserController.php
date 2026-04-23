@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -41,6 +42,9 @@ class RegisteredUserController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        // Auto-verify email (no email confirmation needed for internal POS app)
+        $user->markEmailAsVerified();
 
         // Assign default role to new user
         // Try 'cashier' first, if not exists try 'user', otherwise no role

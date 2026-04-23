@@ -18,6 +18,18 @@ createInertiaApp({
                 <App {...props} />
             </ThemeSwitcherProvider>
         );
+
+        if (window.__bootFallbackTimer) {
+            clearTimeout(window.__bootFallbackTimer);
+        }
+
+        document.body.classList.remove('boot-fallback-visible');
+        const fallback = document.getElementById('boot-fallback');
+        if (fallback) {
+            fallback.remove();
+        }
+
+        document.body.classList.add('app-ready');
     },
     progress: {
         color: '#4B5563',

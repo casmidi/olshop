@@ -5,7 +5,10 @@ import {
     IconPlus,
     IconShoppingCart,
 } from "@tabler/icons-react";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 
 const formatPrice = (value = 0) =>
     Number(value || 0).toLocaleString("id-ID", {
@@ -38,6 +41,7 @@ function CartItem({ item, onUpdateQty, onRemove, isRemoving }) {
                     <img
                         src={getProductImageUrl(item.product.image)}
                         alt={item.product.title}
+                        onError={handleProductImageError}
                         className="w-full h-full object-cover"
                     />
                 ) : (

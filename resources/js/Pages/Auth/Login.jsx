@@ -24,7 +24,7 @@ export default function Login({ status, canResetPassword }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("login"));
+        post("/masuk");
     };
 
     return (
@@ -84,11 +84,10 @@ export default function Login({ status, canResetPassword }) {
                                             setData("email", e.target.value)
                                         }
                                         placeholder="nama@email.com"
-                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${
-                                            errors.email
+                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${errors.email
                                                 ? "border-danger-500 focus:border-danger-500"
                                                 : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                 </div>
                                 {errors.email && (
@@ -116,11 +115,10 @@ export default function Login({ status, canResetPassword }) {
                                             setData("password", e.target.value)
                                         }
                                         placeholder="••••••••"
-                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${
-                                            errors.password
+                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${errors.password
                                                 ? "border-danger-500 focus:border-danger-500"
                                                 : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                     <button
                                         type="button"
@@ -164,7 +162,7 @@ export default function Login({ status, canResetPassword }) {
 
                                 {canResetPassword && (
                                     <Link
-                                        href={route("password.request")}
+                                        href="/forgot-password"
                                         className="text-sm text-primary-500 hover:text-primary-600 font-medium"
                                     >
                                         Lupa Password?

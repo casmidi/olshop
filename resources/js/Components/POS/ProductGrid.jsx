@@ -5,7 +5,10 @@ import {
     IconMinus,
     IconPlus,
 } from "@tabler/icons-react";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 
 const formatPrice = (value = 0) =>
     Number(value || 0).toLocaleString("id-ID", {
@@ -40,6 +43,7 @@ function ProductCard({ product, onAddToCart, isAdding }) {
                     <img
                         src={getProductImageUrl(product.image)}
                         alt={product.title}
+                        onError={handleProductImageError}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
                     />

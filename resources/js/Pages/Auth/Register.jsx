@@ -27,8 +27,17 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("register"));
+        post("/register");
     };
+
+    // Scroll to first error when errors appear
+    useEffect(() => {
+        const keys = Object.keys(errors);
+        if (keys.length > 0) {
+            const el = document.querySelector('[data-error-field]');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [errors]);
 
     return (
         <>
@@ -100,6 +109,18 @@ export default function Register() {
                         <form onSubmit={submit} className="space-y-5">
                             {/* Name */}
                             <div>
+                                {/* Error summary */}
+                                {Object.keys(errors).length > 0 && (
+                                    <div data-error-field className="mb-4 p-4 rounded-xl bg-red-50 border border-red-200 dark:bg-red-950/30 dark:border-red-800">
+                                        <p className="text-sm font-semibold text-red-700 dark:text-red-400 mb-1">Pendaftaran gagal:</p>
+                                        <ul className="list-disc list-inside space-y-0.5">
+                                            {Object.values(errors).map((msg, i) => (
+                                                <li key={i} className="text-sm text-red-600 dark:text-red-400">{msg}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     Nama Lengkap
                                 </label>
@@ -114,11 +135,10 @@ export default function Register() {
                                             setData("name", e.target.value)
                                         }
                                         placeholder="Nama Anda"
-                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${
-                                            errors.name
-                                                ? "border-danger-500 focus:border-danger-500"
-                                                : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${errors.name
+                                            ? "border-danger-500 focus:border-danger-500"
+                                            : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                 </div>
                                 {errors.name && (
@@ -144,11 +164,10 @@ export default function Register() {
                                             setData("email", e.target.value)
                                         }
                                         placeholder="nama@email.com"
-                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${
-                                            errors.email
-                                                ? "border-danger-500 focus:border-danger-500"
-                                                : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                        className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${errors.email
+                                            ? "border-danger-500 focus:border-danger-500"
+                                            : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                 </div>
                                 {errors.email && (
@@ -176,11 +195,10 @@ export default function Register() {
                                             setData("password", e.target.value)
                                         }
                                         placeholder="Minimal 8 karakter"
-                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${
-                                            errors.password
-                                                ? "border-danger-500 focus:border-danger-500"
-                                                : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${errors.password
+                                            ? "border-danger-500 focus:border-danger-500"
+                                            : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                     <button
                                         type="button"
@@ -226,11 +244,10 @@ export default function Register() {
                                             )
                                         }
                                         placeholder="Ulangi password"
-                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${
-                                            errors.password_confirmation
-                                                ? "border-danger-500 focus:border-danger-500"
-                                                : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
-                                        } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
+                                        className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${errors.password_confirmation
+                                            ? "border-danger-500 focus:border-danger-500"
+                                            : "border-slate-200 dark:border-slate-700 focus:border-primary-500"
+                                            } bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-4 focus:ring-primary-500/20 transition-all`}
                                     />
                                     <button
                                         type="button"
@@ -278,7 +295,7 @@ export default function Register() {
                             <p className="text-center text-sm text-slate-600 dark:text-slate-400">
                                 Sudah punya akun?{" "}
                                 <Link
-                                    href="/login"
+                                    href="/masuk"
                                     className="text-primary-500 hover:text-primary-600 font-semibold"
                                 >
                                     Masuk disini

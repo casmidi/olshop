@@ -13,7 +13,10 @@ import {
     IconBarcode,
     IconCurrencyDollar,
 } from "@tabler/icons-react";
-import { getProductImageUrl } from "@/Utils/imageUrl";
+import {
+    getProductImageUrl,
+    handleProductImageError,
+} from "@/Utils/imageUrl";
 
 export default function Edit({ categories, product }) {
     const { errors } = usePage().props;
@@ -98,6 +101,7 @@ export default function Edit({ categories, product }) {
                                     <img
                                         src={imagePreview}
                                         alt="Preview"
+                                        onError={handleProductImageError}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
